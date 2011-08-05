@@ -203,7 +203,7 @@ steal.parse = function(str){
 					callback = function(){};
 					
 				for(var i =0; i < arguments.length;i++){
-					patternMatchPosition[i] =[];
+					patternMatchPosition[i] =0;
 					if(isArray(arguments[i])){
 						patterns.push(makeTokens(arguments[i]))
 					}else if(typeof arguments[i] == 'function'){
@@ -218,12 +218,12 @@ steal.parse = function(str){
 						var pattern = patterns[i];
 	
 						if( token.type !== "string" && like( pattern[patternMatchPosition[i]], token) ){
-							patternMatchPosition[i].push(token);
-							if(patternMatchPosition[i].length === pattern.length){
-								return patternMatchPosition[i];
+							patternMatchPosition[i] = patternMatchPosition[i]+1;
+							if(patternMatchPosition[i] === pattern.length){
+								return token;
 							}
 						}else{
-							patternMatchPosition[i] = [];
+							patternMatchPosition[i] = 0;
 						}
 					}
 				}
